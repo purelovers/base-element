@@ -27,3 +27,51 @@ This project is divided into `Ex-ChatGPT` and `WebChatGPTEnhance`. The former is
 - Ability for ChatGPT to call external API interfaces, such as **Google, WolframAlpha, and WikiMedia**
 - Clean up Google search results data to reduce token usage.
 - Automatic saving and loading of conversation history with **automatic compression**
+- Ability to display the number of tokens used
+- **API pool**
+- **Markdown and MathJax rendering**
+- API call process displayed with an animation, similar to Bing
+- Conversation management with **load and chat** modes similar to ChatGPT web page layout
+- **Shortcut keys** for quickly selecting modes (`Tab`), line breaks (`Shift+Enter`), sending messages (`Enter`), and selecting message history (`up` and `down`), similar to a terminal.
+- `stream` feature is similar to that of a typewriter, it responds faster with results instead of loading everything at once. Stream outputs the results in steps, as shown in the example:
+![stream](img/stream.gif)
+- Automatic **prompt completion** in `Chat Mode` with support for fuzzy search, pinyin search, and custom prompt selection.The project comes with prompt from [awesome-chatgpt-prompts](https://github.com/f/awesome-chatgpt-prompts).
+![promptCompletion](img/promptCompletion.gif)
+
+## To Do List
+
+-   [ ] Mobile interface adaptation
+-   [ ] OCR recognition of formula text in images sent by users
+-   [ ] OAuth2.0 multi-user authentication
+-   [ ] Call the diffusing model to generate images (achieving similar multimodal effects)
+-   [ ] Further spider summary and data cleansing of web search results
+-   [ ] Add code running API, and more APIs
+-   [ ] Embedding alignment retrieval of chat records/local knowledge databases
+
+
+## Installation
+
+### Ex-chatGPT
+
+- `pip install`
+`pip install -r requirements.txt`
+- Copy `apikey.ini.example` and rename it as `apikey.ini`. Then, fill in your `API key` and `proxy` in `apikey.ini`. If you only have one OpenAI API key, you should delete `key1 = sk-xxxx；key2 = sk-xxxx`.
+  - `Google api key and search engine id` [apply](https://developers.google.com/custom-search/v1/overview?hl=en)
+  - `wolframAlpha app id key` [apply](https://products.wolframalpha.com/api/)
+  - `openAI api key`(new feature) or `chatGPT access_token`(old version) [apply](https://platform.openai.com)
+  - (optional, Text To Speech And Speech recognition) fill in `Azure API key` and `region` [apply](https://learn.microsoft.com/zh-cn/azure/cognitive-services/speech-service)
+- run the `main.py` and click the local url like `http://127.0.0.1:1234/`
+- change the mode in the selection box, now have `chat,detail,web,webDirect,WebKeyWord`
+- **Voice Conversation Chat**(optional feature), select language and voice in `chatGPTEx/static/styles/tts.js`, click the microphone on chat interface to `start/close` conversation mode.
+
+### WebChatGPTEnhanceExtension
+
+- fill you `Googgle api key and client id` in `chatGPTChromeEhance/src/util/apiManager.ts/getDefaultAPI`
+- run `npm install`
+- run `npm run build-prod`
+- get the extension in `chatGPTChromeEhance/build`
+- add your `prompts` and `APIs` in option page.
+  - `APIs` and `prompts` examples are in `/WebChatGPTAPI`
+  - `wolframAlpha` needs to run local sever - `WebChatGPTAPI/WolframLocalServer.py`
+
+## Mode In
