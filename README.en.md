@@ -74,4 +74,62 @@ This project is divided into `Ex-ChatGPT` and `WebChatGPTEnhance`. The former is
   - `APIs` and `prompts` examples are in `/WebChatGPTAPI`
   - `wolframAlpha` needs to run local sever - `WebChatGPTAPI/WolframLocalServer.py`
 
-## Mode In
+## Mode Introduction
+
+### Web Mode
+
+The Web Mode starts by asking ChatGPT a question directly. ChatGPT generates a series of API calls related to the query and uses the first returned result and question to verify and supplement with an API call. Finally, ChatGPT summarizes the information. Web Mode has a better chat ability than just summarizing the response.
+
+### Chat Mode
+
+Chat Mode only calls the OpenAI API interface, similar to the web version of ChatGPT. You can search and choose different prompts by typing `/promtname`, and it supports fuzz search.
+
+### WebDirect Mode
+
+WebDirect Mode first lets ChatGPT generate a series of API calls related to the query. Then, it directly calls a third-party API to search for the answer to each query, and finally, ChatGPT summarizes the information. WebDirect Mode is faster and relatively more accurate for single query information.
+
+### Detail Mode
+
+Detail Mode is an extension of the WebDirect Mode, where an additional API call is made to supplement the current results with further inquiries (such as information not found in the previous search). Finally, ChatGPT summarizes the information.
+
+### Keyword Mode
+
+Keyword Mode generates keywords directly from ChatGPT for querying, using DDG. It doesn't require other API keys. However, its accuracy is relatively poor.
+
+## Update Log
+
+- Clean up Google search results data to reduce token usage.
+- Update all API proxy pools and add API restriction cooldown mechanism (Google 403 cooldown for 1 day).
+- Voice dialogue function, using Microsoft Azure API, optimized response speed, including voice recognition and text-to-speech, supporting multiple voices and languages, custom voice.
+- `stream` feature is similar to that of a typewriter, it responds faster with results instead of loading everything at once. Stream outputs the results in steps, as shown in the example:
+![stream](img/stream.gif)
+- Redundant backup of chat history.
+- Auto-complete prompt selection in chat mode with **fuzzy search** and **Pinyin search** support.
+![promptCompletion](img/promptCompletion.gif)
+
+- Update docker and proxy support.
+
+- Shortcut keys for quick mode selection (`Tab`) and line break (`Shift + Enter`), while `Enter` sends the message. Message history selection (`up`, `down`) is similar to a terminal.
+
+- Update chat history management sidebar.
+![chatHistory](img/newPage.jpg)
+
+- Update API calls processing animation.
+![APIAnimation](img/APIAnimation.png)
+
+- Web page beautification.
+![WebBeautification](img/WebPageBeautification.jpg)
+
+- Update Markdown and MathJax renderer.
+![MathJax](img/mathjax.jpg)
+
+- Update chat history token optimizer, and web mode can respond according to chat history. Add token cost counter.
+![history](img/webHistory.jpg)
+
+- Update web chat mode selection in the webpage and optimize prompt and token cost. Restrict the token limit.
+![mode](img/mode.jpg)
+
+- Update better support for Chinese queries and add current date info.
+![date](img/date.jpg)
+
+- Update web chat mode a
