@@ -132,4 +132,9 @@ Keyword Mode generates keywords directly from ChatGPT for querying, using DDG. I
 - Update better support for Chinese queries and add current date info.
 ![date](img/date.jpg)
 
-- Update web chat mode a
+- Update web chat mode and fix some bugs.
+- Update API configuration.
+- Update API pool.
+- Automatic saving and loading of conversation history, ChatGPT can retrieve previous conversations.
+- Update official support for OpenAI GPT3.5 Turbo API, which is super fast and cheap.
+- Update extra API calls and search summarizations to provide a more comprehensive and detailed answer.
