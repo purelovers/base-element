@@ -175,4 +175,33 @@ Keyword Mode 直接从 ChatGPT 中生成关键词进行查询，使用 DDG 进�
 -   使用快捷键快速选择模式 `Tab` 和换行 `Shift+Enter`，同时使用 `Enter` 发送消息。使用 `up` 和 `down` 选择历史发送消息，类似终端操作
 -   更新历史对话管理，支持载入、删除和保存历史对话
 
-![chat
+![chatHistory](img/newPage.jpg)
+
+-   更新 API 调用处理动画
+
+![APIAnimation](img/APIAnimation.png)
+
+-   页面美化
+
+![WebBeautification](img/WebPageBeautification.jpg)
+
+-   Markdown 和 MathJax 渲染器
+
+![MathJax](img/mathjax.jpg)
+
+-   更新聊天记录 token 优化器，Web 模式可以根据聊天记录进行响应；添加 token 成本计数器
+
+![history](img/webHistory.jpg)
+
+-   更新 Web 聊天模式选择，优化 prompt 和 token 成本，限制 token 上限
+
+![mode](img/mode.jpg)
+
+-   改进对中文查询的支持，并添加当前日期信息
+
+![date](img/date.jpg)
+
+-   更新 Web 聊天模式并修复一些错误
+-   更新 API 配置
+-   更新 API 池
+-   自动保存载入对话历史，ChatGPT 可联系之前对话
