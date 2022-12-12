@@ -83,4 +83,85 @@ const APIEditor = (
     }
     const actionToolbar = (
         <div className={`wcg-mt-4 wcg-flex wcg-flex-row wcg-justify-between
-                        ${
+                        ${api.uuid === 'default' }`}
+        >
+            <button
+                className="wcg-btn-primary wcg-btn wcg-text-base"
+                onClick={handleSave}
+            >
+                {getTranslation(localizationKeys.buttons.save)}
+            </button>
+        </div >
+    )
+
+    const APIList = (
+        <div>
+            <button
+                className="wcg-btn-primary wcg-btn wcg-w-full wcg-text-base"
+                onClick={handleAdd}>
+                <span class="material-symbols-outlined wcg-mr-2">
+                    add_circle
+                </span>
+                "New API"
+            </button>
+            <ul className="wcg-scroll-y wcg-menu wcg-mt-4 wcg-flex wcg-max-h-96 wcg-scroll-m-0 wcg-flex-col
+                    wcg-flex-nowrap wcg-overflow-auto wcg-border-2
+                    wcg-border-solid wcg-border-white/20 wcg-p-0">
+                {savedAPIS.map((apii:API) => (
+                    <li
+                        key={apii.uuid}
+                        onClick={() => handleSelect(apii)}
+                    >
+                        <a className={`wcg-text-base ${apii.uuid === api.uuid ? 'wcg-active' : ''}`}>
+                            📝 {apii.name}
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    )
+
+    const nameInput = (
+        <input
+            ref={nameInputRef}
+            className={`wcg-input-bordered wcg-input wcg-flex-1
+                        ${showErrors && nameError ? "wcg-input-error" : ""}`
+            }
+            placeholder={getTranslation(localizationKeys.placeholders.namePlaceholder)}
+            value={api.name}
+            onInput={(e: Event) => {
+                setNameError(false)
+                setAPI({ ...api, name: (e.target as HTMLInputElement).value })
+            }}
+            disabled={api.uuid === 'default'}
+        />
+    )
+
+    const btnDelete = (
+        <button
+            className={`wcg-btn wcg-text-base
+                    ${deleteBtnText === "check" ? "wcg-btn-error" : "wcg-btn-primary"}
+                    ${api.uuid === 'default'}`}
+            onClick={handleDeleteBtnClick}
+        >
+            <span class="material-symbols-outlined">
+                {deleteBtnText}
+            </span>
+        </button>
+    )
+
+    const textArea = (
+        <textarea
+            ref={textareaRef}
+            className={`wcg-textarea-bordered wcg-textarea
+                        ${showErrors && textError ? "wcg-textarea-error" : ""}
+                        wcg-mt-2 wcg-h-96 wcg-resize-none wcg-text-base`}
+            value={api.text}
+            onInput={handleTextareaChange}
+            disabled={api.uuid === 'default'}
+        />
+    )
+
+    return (
+        <div className="wcg-rounded-box wcg-mt-10 wcg-flex wcg-h-[32rem] wcg-w-4/5 wcg-flex-row wcg-gap-4 wcg-border wcg-py-4">
+            <div className="wcg-w-1/
