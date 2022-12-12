@@ -164,4 +164,21 @@ const APIEditor = (
 
     return (
         <div className="wcg-rounded-box wcg-mt-10 wcg-flex wcg-h-[32rem] wcg-w-4/5 wcg-flex-row wcg-gap-4 wcg-border wcg-py-4">
-            <div className="wcg-w-1/
+            <div className="wcg-w-1/3">
+                {APIList}
+            </div>
+
+            <div className="wcg-flex wcg-w-2/3 wcg-flex-col">
+                <div className="wcg-flex wcg-flex-row wcg-items-center wcg-gap-2">
+                    {nameInput}
+                    {btnDelete}
+                </div>
+                {textArea}
+
+                {actionToolbar}
+            </div>
+        </div >
+    )
+}
+
+export default APIEditor
