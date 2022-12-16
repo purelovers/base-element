@@ -135,4 +135,78 @@ const PromptEditor = (
                         ${showErrors && webResultsError ? "wcg-btn-error" : hasWebResultsPlaceholder ? "wcg-btn-success" : "wcg-btn-warning"}
                         wcg-p-1 wcg-lowercase`}
                         onClick={() => {
-                            setWebResultsErro
+                            setWebResultsError(false)
+                            handleInsertText('{web_results}')
+                        }}
+                    >
+                        &#123web_results&#125
+                    </button>
+                </TooltipWrapper>
+                <TooltipWrapper tip={showErrors ? getTranslation(localizationKeys.placeHolderTips.query) : ""}>
+                    <button
+                        className={`wcg-btn
+                        ${showErrors && queryError ? "wcg-btn-error" : hasQueryPlaceholder ? "wcg-btn-success" : "wcg-btn-warning"}
+                        wcg-p-1 wcg-lowercase`}
+                        onClick={() => {
+                            setQueryError(false)
+                            handleInsertText('{query}')
+                        }}
+                    >
+                        &#123query&#125
+                    </button>
+                </TooltipWrapper>
+                <TooltipWrapper tip={getTranslation(localizationKeys.placeHolderTips.currentDate)}>
+                    <button
+                        className="wcg-btn-success wcg-btn wcg-p-1 wcg-lowercase"
+                        onClick={() => handleInsertText('{current_date}')}
+                    >
+                        &#123current_date&#125
+                    </button>
+                </TooltipWrapper>
+            </div>
+
+            <button
+                className="wcg-btn-primary wcg-btn wcg-text-base"
+                onClick={handleSave}
+            >
+                {getTranslation(localizationKeys.buttons.save)}
+            </button>
+        </div >
+    )
+
+    const PromptList = (
+        <div>
+            <button
+                className="wcg-btn-primary wcg-btn wcg-w-full wcg-text-base"
+                onClick={handleAdd}>
+                <span class="material-symbols-outlined wcg-mr-2">
+                    add_circle
+                </span>
+                {getTranslation(localizationKeys.buttons.newPrompt)}
+            </button>
+            <ul className="wcg-scroll-y wcg-menu wcg-mt-4 wcg-flex wcg-max-h-96 wcg-scroll-m-0 wcg-flex-col
+                    wcg-flex-nowrap wcg-overflow-auto wcg-border-2
+                    wcg-border-solid wcg-border-white/20 wcg-p-0">
+                {savedPrompts.map((prmpt: Prompt) => (
+                    <li
+                        key={prmpt.uuid}
+                        onClick={() => handleSelect(prmpt)}
+                    >
+                        <a className={`wcg-text-base ${prmpt.uuid === prompt.uuid ? 'wcg-active' : ''}`}>
+                            📝 {prmpt.name}
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    )
+
+    const nameInput = (
+        <input
+            ref={nameInputRef}
+            className={`wcg-input-bordered wcg-input wcg-flex-1
+                        ${showErrors && nameError ? "wcg-input-error" : ""}`
+            }
+            placeholder={getTranslation(localizationKeys.placeholders.namePlaceholder)}
+            value={prompt.name}
+            onInput={(e: Event) => {
