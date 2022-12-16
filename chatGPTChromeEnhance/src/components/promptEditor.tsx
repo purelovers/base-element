@@ -210,3 +210,55 @@ const PromptEditor = (
             placeholder={getTranslation(localizationKeys.placeholders.namePlaceholder)}
             value={prompt.name}
             onInput={(e: Event) => {
+                setNameError(false)
+                setPrompt({ ...prompt, name: (e.target as HTMLInputElement).value })
+            }}
+            disabled={prompt.uuid === 'default' || prompt.uuid === 'default_en'}
+        />
+    )
+
+    const btnDelete = (
+        <button
+            className={`wcg-btn wcg-text-base
+                    ${deleteBtnText === "check" ? "wcg-btn-error" : "wcg-btn-primary"}
+                    ${prompt.uuid === 'default' || prompt.uuid === 'default_en' ? "wcg-hidden" : ""}`}
+            onClick={handleDeleteBtnClick}
+        >
+            <span class="material-symbols-outlined">
+                {deleteBtnText}
+            </span>
+        </button>
+    )
+
+    const textArea = (
+        <textarea
+            ref={textareaRef}
+            className={`wcg-textarea-bordered wcg-textarea
+                        ${showErrors && textError ? "wcg-textarea-error" : ""}
+                        wcg-mt-2 wcg-h-96 wcg-resize-none wcg-text-base`}
+            value={prompt.text}
+            onInput={handleTextareaChange}
+            disabled={prompt.uuid === 'default' || prompt.uuid === 'default_en'}
+        />
+    )
+
+    return (
+        <div className="wcg-rounded-box wcg-mt-10 wcg-flex wcg-h-[32rem] wcg-w-4/5 wcg-flex-row wcg-gap-4 wcg-border wcg-py-4">
+            <div className="wcg-w-1/3">
+                {PromptList}
+            </div>
+
+            <div className="wcg-flex wcg-w-2/3 wcg-flex-col">
+                <div className="wcg-flex wcg-flex-row wcg-items-center wcg-gap-2">
+                    {nameInput}
+                    {btnDelete}
+                </div>
+                {textArea}
+
+                {actionToolbar}
+            </div>
+        </div >
+    )
+}
+
+export default PromptEditor
