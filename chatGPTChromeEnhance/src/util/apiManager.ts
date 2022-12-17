@@ -32,4 +32,33 @@ export const getsavedAPIs = async (addDefaults = true) => {
     const savedAPIs = data[SAVED_API_KEY] || []
     if (addDefaults)
         return addDefaultAPIs(savedAPIs)
-    return save
+    return savedAPIs
+}
+function addDefaultAPIs(apis: API[]) {
+    addAPI(apis, getDefaultAPI())
+    return apis
+    function addAPI(apis: API[], api: API) {
+        const index = apis.findIndex((i: API) => i.uuid === api.uuid)
+        if (index >= 0) {
+            apis[index] = api
+        } else {
+            apis.unshift(api)
+        }
+    }
+}
+export const saveAPI = async (api: API) => {
+    const savedAPIs = await getsavedAPIs(false)
+    const index = savedAPIs.findIndex((i: API) => i.uuid === api.uuid)
+    if (index >= 0) {
+        savedAPIs[index] = api
+    } else {
+        api.uuid = uuidv4()
+        savedAPIs.push(api)
+    }
+    await Browser.storage.sync.set({ [SAVED_API_KEY]: savedAPIs })
+}
+export const deleteAPI = async (api: API) => {
+    let savedAPIs = await getsavedAPIs()
+    savedAPIs = savedAPIs.filter((i: API) => i.uuid !== api.uuid)
+    await Browser.storage.sync.set({ [SAVED_API_KEY]: savedAPIs })
+}
