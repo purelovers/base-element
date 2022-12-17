@@ -16,4 +16,9 @@ function TooltipWrapper(props: { tip: string, children: JSX.Element, position?: 
         }
             data-tip={props.tip}>
             {props.children}
-        </span
+        </span>
+    )
+
+}
+
+export default TooltipWrapper
