@@ -1,0 +1,42 @@
+{
+  "default_prompt": {
+    "en": "Web search results:\n\n{web_results}\nCurrent date: {current_date}\n\nInstructions: Using the provided web search results, write a comprehensive reply to the given query. Make sure to cite results using [[number](URL)] notation after the reference. If the provided search results refer to multiple subjects with the same name, write separate answers for each subject.\nQuery: {query}"
+  },
+  "language": {
+    "en": "Language",
+    "pt": "Idioma",
+    "es": "Idioma",
+    "fr": "Langue",
+    "de": "Sprache",
+    "it": "Lingua",
+    "zh": "语言",
+    "ja": "言語",
+    "ko": "언어",
+    "ru": "язык"
+  },
+  "choose_language": {
+    "en": "Choose language",
+    "pt": "Escolha o idioma",
+    "es": "Elegir idioma",
+    "fr": "Choisir la langue",
+    "de": "Sprache auswählen",
+    "it": "Scegli la lingua",
+    "zh": "选择语言",
+    "ja": "言語を選択",
+    "ko": "언어 선택",
+    "ru": "Выбрать язык"
+  },
+  "support_this_project": {
+    "en": "Support this project",
+    "pt": "Apoie este projeto",
+    "es": "Apoya este proyecto",
+    "fr": "Soutenez ce projet",
+    "de": "Unterstützen Sie dieses Projekt",
+    "it": "Sostieni questo progetto",
+    "zh": "支持此项目",
+    "ja": "このプロジェクトを支援",
+    "ko": "이 프로젝트 지원",
+    "ru": "Поддержать проект"
+  },
+  "support_me": {
+    "en": "This extension is free! 🥳 But the 
