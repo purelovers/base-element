@@ -104,4 +104,58 @@
     "es": "Ingrese un marcador de posición para los resultados de búsqueda web (requerido)",
     "fr": "Insérer un marqueur de place pour les résultats de recherche web (requis)",
     "de": "Platzhalter für die Web-Ergebnisse einfügen (erforderlich)",
-    "it": "Inserisci il segnaposto per i risu
+    "it": "Inserisci il segnaposto per i risultati web (richiesto)",
+    "zh": "插入网络搜索结果的占位符（必需）",
+    "ja": "Web結果のプレースホルダーを挿入（必須）",
+    "ko": "웹 검색 결과의 자리 표시자를 삽입 (필수)",
+    "ru": "Вставить плейсхолдер веб-результатов (обязательно)"
+  },
+  "query_placeholder_tip": {
+    "en": "Insert placeholder for the initial query (required)",
+    "pt": "Insira o espaço reservado para a pergunta inicial (obrigatório)",
+    "es": "Ingrese un marcador de posición para la consulta inicial (requerido)",
+    "fr": "Insérer un marqueur de place pour la requête initiale (requis)",
+    "de": "Platzhalter für die ursprüngliche Anfrage einfügen (erforderlich)",
+    "it": "Inserisci il segnaposto per la query iniziale (richiesto)",
+    "zh": "插入初始查询的占位符（必需）",
+    "ja": "初期クエリのプレースホルダーを挿入（必須）",
+    "ko": "초기 쿼리의 자리 표시자를 삽입 (필수)",
+    "ru": "Вставить плейсхолдер начального запроса (обязательно)"
+  },
+  "twitter_button_tip": {
+    "en": "Follow me on Twitter",
+    "pt": "Siga-me no Twitter",
+    "es": "Sígueme en Twitter",
+    "fr": "Me suivre sur Twitter",
+    "de": "Folgen Sie mir auf Twitter",
+    "it": "Seguimi su Twitter",
+    "zh": "在 Twitter 上关注我",
+    "ja": "Twitterで私をフォロー",
+    "ko": "Twitter에서 나를 팔로우하세요",
+    "ru": "Подписаться на меня в Twitter"
+  },
+  "github_button_tip": {
+    "en": "View the source code on GitHub",
+    "pt": "Veja o código fonte no GitHub",
+    "es": "Ver el código fuente en GitHub",
+    "fr": "Voir le code source sur GitHub",
+    "de": "Quellcode auf GitHub anzeigen",
+    "it": "Visualizza il codice sorgente su GitHub",
+    "zh": "在 GitHub 上查看源代码",
+    "ja": "GitHub上のソースコードを見る",
+    "ko": "GitHub에서 소스 코드 보기",
+    "ru": "Посмотреть исходный код на GitHub"
+  },
+  "discord_button_tip": {
+    "en": "Join our Discord community",
+    "pt": "Junte-se à nossa comunidade no Discord",
+    "es": "Únete a nuestra comunidad de Discord",
+    "fr": "Rejoignez notre communauté Discord",
+    "de": "Treten Sie unserer Discord-Community bei",
+    "it": "Unisciti alla nostra comunità su Discord",
+    "zh": "加入我们的 Discord 社区",
+    "ja": "私たちのDiscordコミュニティに参加してください",
+    "ko": "우리의 Discord 커뮤니티에 가입하세요",
+    "ru": "Присоединиться к нашему сообществу на Discord"
+  }
+}
