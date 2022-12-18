@@ -39,4 +39,69 @@
     "ru": "Поддержать проект"
   },
   "support_me": {
-    "en": "This extension is free! 🥳 But the 
+    "en": "This extension is free! 🥳 But the server it runs on is not. 😬\nPlease help me keep it alive! ⤵️",
+    "pt": "Esta extensão é gratuita! 🥳 Mas o servidor em que ela é executada não é. 😬\nAjude-me a mantê-lo vivo! ⤵️",
+    "es": "¡Esta extensión es gratuita! 🥳 Pero el servidor en el que se ejecuta no lo es. 😬\n¡Ayúdame a mantenerla viva! ⤵️",
+    "fr": "Cette extension est gratuite ! 🥳 Mais le serveur sur lequel elle fonctionne ne l'est pas. 😬\nVeuillez m'aider à la maintenir en vie ! ⤵️",
+    "de": "Diese Erweiterung ist kostenlos! 🥳 Aber der Server, auf dem sie läuft, ist es nicht. 😬\nBitte hilf mir, sie am Leben zu erhalten! ⤵️",
+    "it": "Questa estensione è gratuita! 🥳 Ma il server su cui viene eseguita non lo è. 😬\nPer favore aiutami a tenerlo vivo! ⤵️",
+    "zh": "此扩展程序是免费的！🥳 但是它运行的服务器不是。😬\n帮助这个项目继续下去！⤵️",
+    "ja": "この拡張機能は無料です！🥳 しかし、それが実行されているサーバーは無料ではありません。😬\nこのプロジェクトを維持するのを手伝ってください！⤵️",
+    "ko": "이 확장 프로그램은 무료입니다! 🥳 그러나 그것이 실행되는 서버는 아닙니다. 😬\n이 프로젝트를 계속 유지하도록 도와주세요! ⤵️",
+    "ru": "Это расширение бесплатное! 🥳 Но сервер, на котором он работает, - нет. 😬\nПожалуйста, помогите поддержать его работу! ⤵️"
+  },
+  "save": {
+    "en": "Save",
+    "pt": "Salvar",
+    "es": "Guardar",
+    "fr": "Enregistrer",
+    "de": "Speichern",
+    "it": "Salva",
+    "zh": "保存",
+    "ja": "保存",
+    "ko": "저장",
+    "ru": "Сохранить"
+  },
+  "new_prompt": {
+    "en": "New prompt",
+    "pt": "Novo prompt",
+    "es": "Nuevo prompt",
+    "fr": "Nouveau prompt",
+    "de": "Neues Prompt",
+    "it": "Nuovo prompt",
+    "zh": "新提示",
+    "ja": "新しいプロンプト",
+    "ko": "새로운 프롬프트",
+    "ru": "Новый запрос"
+  },
+  "name_placeholder": {
+    "en": "Name",
+    "pt": "Nome",
+    "es": "Nombre",
+    "fr": "Nom",
+    "de": "Name",
+    "it": "Nome",
+    "zh": "名称",
+    "ja": "名前",
+    "ko": "이름",
+    "ru": "Название"
+  },
+  "current_date_placeholder_tip": {
+    "en": "Insert placeholder for the current date (optional)",
+    "pt": "Insira o espaço reservado para a data atual (opcional)",
+    "es": "Ingrese un marcador de posición para la fecha actual (opcional)",
+    "fr": "Insérer un marqueur de place pour la date actuelle (facultatif)",
+    "de": "Platzhalter für das aktuelle Datum einfügen (optional)",
+    "it": "Inserisci il segnaposto per la data attuale (opzionale)",
+    "zh": "插入当前日期的占位符（可选）",
+    "ja": "現在の日付のプレースホルダーを挿入（任意）",
+    "ko": "현재 날짜의 자리 표시자를 삽입 (선택 사항)",
+    "ru": "Вставить плейсхолдер текущей даты (необязательно)"
+  },
+  "web_results_placeholder_tip": {
+    "en": "Insert placeholder for the web results (required)",
+    "pt": "Insira o espaço reservado para os resultados da pesquisa na web (obrigatório)",
+    "es": "Ingrese un marcador de posición para los resultados de búsqueda web (requerido)",
+    "fr": "Insérer un marqueur de place pour les résultats de recherche web (requis)",
+    "de": "Platzhalter für die Web-Ergebnisse einfügen (erforderlich)",
+    "it": "Inserisci il segnaposto per i risu
