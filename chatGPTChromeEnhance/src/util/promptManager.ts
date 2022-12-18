@@ -103,4 +103,18 @@ function addDefaultPrompts(prompts: Prompt[]) {
 
 export const savePrompt = async (prompt: Prompt) => {
     const savedPrompts = await getSavedPrompts(false)
-    const index = saved
+    const index = savedPrompts.findIndex((i: Prompt) => i.uuid === prompt.uuid)
+    if (index >= 0) {
+        savedPrompts[index] = prompt
+    } else {
+        prompt.uuid = uuidv4()
+        savedPrompts.push(prompt)
+    }
+    await Browser.storage.sync.set({ [SAVED_PROMPTS_KEY]: savedPrompts })
+}
+
+export const deletePrompt = async (prompt: Prompt) => {
+    let savedPrompts = await getSavedPrompts()
+    savedPrompts = savedPrompts.filter((i: Prompt) => i.uuid !== prompt.uuid)
+    await Browser.storage.sync.set({ [SAVED_PROMPTS_KEY]: savedPrompts })
+}
