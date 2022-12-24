@@ -50,4 +50,21 @@
     { "value": "ro-ro", "label": "Romania" },
     { "value": "ru-ru", "label": "Russia" },
     { "value": "sg-en", "label": "Singapore" },
-    { "value": "sk-s
+    { "value": "sk-sk", "label": "Slovak Republic" },
+    { "value": "sl-sl", "label": "Slovenia" },
+    { "value": "za-en", "label": "South Africa" },
+    { "value": "es-es", "label": "Spain" },
+    { "value": "se-sv", "label": "Sweden" },
+    { "value": "ch-de", "label": "Switzerland (de)" },
+    { "value": "ch-fr", "label": "Switzerland (fr)" },
+    { "value": "ch-it", "label": "Switzerland (it)" },
+    { "value": "tw-tzh", "label": "Taiwan" },
+    { "value": "th-th", "label": "Thailand" },
+    { "value": "tr-tr", "label": "Turkey" },
+    { "value": "ua-uk", "label": "Ukraine" },
+    { "value": "uk-en", "label": "United Kingdom" },
+    { "value": "us-en", "label": "United States" },
+    { "value": "ue-es", "label": "United States (es)" },
+    { "value": "ve-es", "label": "Venezuela" },
+    { "value": "vn-vi", "label": "Vietnam" }
+]
