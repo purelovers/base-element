@@ -1,0 +1,29 @@
+version: '3'
+services:
+
+  exchatgpt:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: exchatgpt
+    volumes:
+      - ~/config:/config   # 冒号左边请修改为你想保存配置的路径
+    container_name: exchatgpt
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
+        max-file: "3"
+    ports:
+      - "5000:5000"
+    # TODO: 添加环境变量以直接启动
+    environment:
+      - "GOOGLE_API_KEY0=XXX"
+      - "SEARCH_ENGINE_ID0=XXX"
+      - "key0=XXX"
+      - "WOLFRAMALPHA_APP_ID0=XXX"
+      - "API_PROXY=https://api.openai.com/v1/chat/completions"
+      - "AZURE_SUBSCRIPTIONKEY="
+      - "AZURE_REGION="
+      - "AUTO_UPDATE=true"
