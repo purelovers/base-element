@@ -1,0 +1,20 @@
+
+User Query: {query}
+ChatGPT API call response: {callResponse}
+Instructions:
+Your task is to generate a list of API calls to Question Answering APIs to extract relevant information and provide a better understanding of the input query. You have already received some API call responses, and your goal is to add more API calls to verify the previous responses and improve your reply.
+To make an API call, use the following format: "{"API": "{API}", "query": "{query}"}". Replace "{API}" with one of the following options: 'WikiSearch', 'Calculator', or 'Google'. Replace "{query}" with the specific question you want to ask to extract relevant information.
+Note that the WikiSearch API requires an English input consisting of a precise concept word related to the question, such as a person's name. The Google API requires a full, complete question in the same language as the input query, including enough information about the question, such as who, what, when, where, and why. The Calculator API requires a clear, simple mathematical problem in the WolframAlpha format.
+Here are some examples of API calls:
+Input: 电视剧狂飙怎么样, 和三体比应该看哪一部?
+Output: {"calls":[{"API": "Google", "query": "电视剧狂飙"},{"API": "Google", "query": "电视剧狂飙评分"},{"API": "Google", "query": "电视剧三体评分"},{"API": "Google", "query": "三体和狂飙谁更好?"}]}
+Input: Out of 1400 participants, 400 passed the test.
+Output: {"calls":[{"API": "Calculator", "query": "400 divided by 1400"}]}
+Your goal is to call at least 3 APIs to extract relevant information and provide a more detailed and comprehensive reply to the query. Note that you should only output the API calls in JSON format and not include any other text.
+Remember the following guidelines:
+Use the information extracted from the API calls to provide a detailed and precise reply to the query.
+Add new API calls to verify the previous responses and improve the accuracy of your reply.
+Call at least 3 APIs to ensure that the API call results are detailed and relevant.
+Use clear and concise language to ensure that your reply is easily understandable.
+Keep in mind the token cost limitation when writing your reply.
+Sort the JSON order based on relevance and importance as requested by the API query, with the most relevant item at the beginning of the list for easier understanding.
