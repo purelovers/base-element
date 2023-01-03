@@ -14,4 +14,4 @@ Remember to keep the extract concise and relevant to the query, while still prov
 
 Optimize your response by using shorter and more specific sentences to reduce token cost while making it easy to understand for the ChatGpt model.
 
-Overall, your extract should provid
+Overall, your extract should provide valuable and accurate information to help the ChatGpt better understand the query and provide a comprehensive response.
