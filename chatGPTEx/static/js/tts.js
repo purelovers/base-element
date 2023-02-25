@@ -92,4 +92,34 @@ async function fromMic() {
         textAreaHeightAdjut();
     };
     speechRecognizer.recognized = (s, e) => {
-        enableRecor
+        enableRecord = true;
+        if (e.result.reason == SpeechSDK.ResultReason.RecognizedSpeech) {
+            textAreaHeightAdjut();
+            msgerInput.value = lastRecordmsg + e.result.text;
+            lastRecordmsg = msgerInput.value
+            console.log(`RECOGNIZED: Text=${e.result.text}`);
+        }
+        else if (e.result.reason == SpeechSDK.ResultReason.NoMatch) {
+            console.log("NOMATCH: Speech could not be recognized.");
+        }
+    };
+    speechRecognizer.canceled = (s, e) => {
+        enableRecord = false;
+        console.log(`CANCELED: Reason=${e.reason}`);
+        if (e.reason == SpeechSDK.CancellationReason.Error) {
+            console.log(`"CANCELED: ErrorCode=${e.errorCode}`);
+            console.log(`"CANCELED: ErrorDetails=${e.errorDetails}`);
+            console.log("CANCELED: Did you set the speech resource key and region values?");
+        }
+        speechRecognizer.stopContinuousRecognitionAsync();
+    };
+    speechRecognizer.sessionStopped = (s, e) => {
+        enableRecord = false;
+        console.log("\n    Session stopped event.");
+        speechRecognizer.stopContinuousRecognitionAsync();
+    };
+    speechRecognizer.startContinuousRecognitionAsync();
+    enableRecord = true;
+}
+
+
