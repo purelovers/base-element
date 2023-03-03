@@ -1,0 +1,412 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>EXChatGPT</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/prism.css') }}">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle.js"></script>
+  <script src="{{ url_for('static', filename='js/tts.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/prism.js') }}"></script>
+</head>
+
+<body>
+  <!-- partial:index.partial.html -->
+  <div class="container">
+    <div class="sidebar">
+      <button class="new-chat">
+        <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round"
+          stroke-linejoin="round" class="h-4 w-4" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        New chat
+      </button>
+      <ul class="sidebar-list">
+      </ul>
+    </div>
+    <div class="chat-page">
+      <section class="msger">
+        <header class="msger-header">
+          <div class="msger-header-title">
+            🤖️EXChatGPT Model: <span> </span>GPT3.5-Turbo
+          </div>
+        </header>
+        <main class="msger-chat">
+        </main>
+      </section>
+      <div class="row">
+        <div class="col col-first">
+          <form>
+            <select class="mode-selection" id="mode" name="mode">
+              <option value="web">web</option>
+              <option value="chat">chat</option>
+              <option value="WebKeyWord">WebKeyWord</option>
+              <option value="webDirect">webDirect</option>
+              <option value="detail">detail</option>
+            </select>
+            <br>
+          </form>
+        </div>
+        <select id="prompt"></select>
+        <div class="col">
+          <form class="msger-inputarea">
+            <textarea type="text" class="msger-input" id="textInput" placeholder="..."></textarea>
+            <button type="submit" class="msger-send-btn">↵</button>
+          </form>
+        </div>
+        <button type="submit" class="msger-send-record" onclick="fromMic()">🎤</button>
+      </div>
+    </div>
+
+    <script>
+
+      const msgerForm = get(".msger-inputarea");
+      const msgerInput = get(".msger-input");
+      const msgerChat = get(".msger-chat");
+      const msger = get(".msger");
+      const BOT_IMG = "static/styles/ChatGPT_logo.png";
+      const PERSON_IMG = "static/styles/person.jpg";
+      const BOT_NAME = "EXChatGPT";
+      const PERSON_NAME = "You";
+      const CHECK_IMG = "static/styles/check.png";
+      function appendAPIresults(name, img, side, text) {
+        //   Simple solution for small apps
+        const msgHTML = `
+    <div class="msg-api">
+      <div class="msg-text"><img class="check-img" src="${CHECK_IMG}" alt="Check mark"><b>${name}: </b>${text}</div>
+    </div>
+`;
+        msgerChat.insertAdjacentHTML("beforeend", msgHTML);
+        msger.scrollTop = msger.scrollHeight;
+      }
+      //load History
+      var intervalId = setInterval(pollFunction, 200);
+      function pollFunction() {
+        var result = loadHistory();
+        if (result !== null) {
+          clearInterval(intervalId);
+        }
+      }
+      function loadHistory() {
+        if (document.querySelector('.sidebar-list').hasChildNodes() == false) {
+          return null;
+        }
+        // Fetch chat history from server
+        while (msgerChat.firstChild) {
+          msgerChat.removeChild(msgerChat.firstChild);
+        }
+        appendMessage(BOT_NAME, BOT_IMG, "left", "Hello, I'm EXChatGPT, what can I help you?😄", null, '');
+        console.log(document.querySelector('.sidebar-list'));
+        const uuid = document.querySelector('.sidebar-list').firstElementChild.getAttribute('uuid');
+        console.log(uuid);
+        fetch('/api/history?uuid=' + uuid)
+          .then(response => response.json())
+          .then(data => {
+            data.forEach(message => {
+              appendMessage(message.name, message.img, message.side, message.text, null, message.time);
+            });
+            markdownMathRender();
+          })
+          .catch(err => console.error(err));
+        msger.scrollTop = msger.scrollHeight;
+        return uuid;
+      }
+      function fetchAPIProcess() {
+        fetch('/api/APIProcess')
+          .then(response => response.json())
+          .then(data => {
+            if (data.hasOwnProperty('calls')) {
+              console.log(data)
+              data.calls.forEach(message => {
+                appendAPIresults(message.API, BOT_IMG, 'left', message.query);
+                msger.scrollTop = msger.scrollHeight;
+              });
+            }
+          })
+          .catch(error => console.error(error));
+      }
+      async function addChat(uuid, msg) {
+        return fetch('/api/addChat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: `uuid=${encodeURIComponent(uuid)}&msg=${encodeURIComponent(msg)}`
+        })
+          .then(response => response.text())
+          .then(data => {
+            console.log(data);
+            return data;
+          })
+          .catch(error => console.error(error));
+      }
+      let fetchAPIProcessID 
+      async function submit() {
+        const mode = document.getElementById("mode").value;
+        var msgText = msgerInput.value;
+        messageHistory.unshift(msgText);
+        const uuid = document.querySelector('.sidebar-list').firstElementChild.getAttribute('uuid');
+        if (!msgText) return;
+        console.log(msgText)
+        msgText = msgText.replace(/\n/g, "\n</br>")
+        appendMessage(PERSON_NAME, PERSON_IMG, "right", msgText, mode, formatDate(new Date()));
+        msgerInput.value = "";
+        lastRecordmsg = "";
+        msgerInput.height = '30px';
+        textAreaHeightAdjut();
+        fetchAPIProcessID = setInterval(fetchAPIProcess, 200);
+        setTimeout(function () {
+          clearInterval(fetchAPIProcessID);
+        }, 20000);
+        var prompt = '';
+        if (promptSelect.options[promptSelect.selectedIndex] != null && promptSelect.style.display != 'none') {
+          prompt = promptSelect.options[promptSelect.selectedIndex].text;
+        }
+        console.log(prompt);
+        const res = await botResponse(msgText, mode, uuid, prompt, enableRecord);
+        clearInterval(fetchAPIProcessID);
+
+        markdownMathRender();
+      }
+      msgerForm.addEventListener("submit", event => {
+        event.preventDefault();
+        submit();
+      });
+      function appendMessage(name, img, side, text, mode, time) {
+        let chatInfo = '';
+        if (mode != null) {
+          chatInfo = `
+        <div class="msg-info-mode">${mode}</div>
+        <div class="msg-info-time">${time}</div>
+        `;
+        } else if (time != '') {
+          chatInfo = `
+        <div class="msg-info-time">${time}</div>
+        `;
+        }
+        const msgHTML = `
+<div class="msg ${side}-msg">
+  <div class="msg-img" style="background-image: url(${img})"></div>
+  <div class="msg-bubble">
+    <div class="msg-info">
+      <div class="msg-info-name">${name}</div>
+      ${chatInfo} 
+    </div>
+    <div class="msg-text">${text}</div>
+  </div>
+</div>
+`;
+        msgerChat.insertAdjacentHTML("beforeend", msgHTML);
+        msger.scrollTop = msger.scrollHeight;
+      }
+      function markdownMathRender() {
+        Prism.highlightAll();
+        const script1 = document.createElement("script");
+        script1.src = "https://polyfill.io/v3/polyfill.min.js?features=es6";
+        document.body.appendChild(script1);
+        const script2 = document.createElement("script");
+        script2.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js";
+        document.body.appendChild(script2);
+        window.MathJax = {
+          tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']]
+          }
+        };
+      }
+
+      async function botResponse(rawText, mode, uuid, prompt = '', enableTTS = true) {
+        const response = await fetch(`/api/query?mode=${encodeURIComponent(mode)}&uuid=${encodeURIComponent(uuid)}&prompt=${encodeURIComponent(prompt)}&msg=${encodeURIComponent(rawText)}`, {
+          method: 'GET',
+          headers: { 'Accept': 'application/octet-stream' }
+        });
+        const stream = await response.body.pipeThrough(new TextDecoderStream()).pipeThrough(new TransformStream({
+          transform(chunk, controller) {
+            controller.enqueue(chunk);
+          }
+        })).pipeThrough(new TextEncoderStream());
+
+        const reader = stream.getReader();
+        const decoder = new TextDecoder();
+        appendMessage(BOT_NAME, BOT_IMG, "left", '', mode, formatDate(new Date()));
+        const lastMsgText = document.querySelector("body > div > div.chat-page > section > main > div:last-child > div.msg-bubble").querySelector('.msg-text');
+        let buffer = "";
+        while (true) {
+          const { done, value } = await reader.read();
+          clearInterval(fetchAPIProcessID);
+          if (done) {
+            if (enableTTS) {
+              TTS(sentences.join(""));
+            }
+            const lastMsgText = document.querySelector("body > div > div.chat-page > section > main > div:last-child > div.msg-bubble").querySelector('.msg-text');
+            lastMsgText.innerHTML = await addChat(uuid, lastMsgText.innerHTML);
+            break;
+          }
+          const msg = decoder.decode(value);
+          buffer += msg;
+          const sentences = buffer.match(/[^.!?。！？;\uFF0C,\n~]+[.!?。！？;\uFF0C,\n~][\s\u3000]*/g);
+          if (sentences) {
+            console.log(sentences.join(""));
+            if (enableTTS) {
+              TTS(sentences.join(""));
+            }
+            buffer = buffer.slice(sentences.join("").length); // Remove complete sentences from the buffer
+          }
+          const formattedMsg = msg.replace(/\n/g, "\n</br>");
+          lastMsgText.innerHTML += formattedMsg;
+          textAreaHeightAdjut();
+          msger.scrollTop = msger.scrollHeight;
+          // lastMsgText.textContent += value;
+          console.log(value);
+        }
+        return lastMsgText.textContent
+      }
+      // Utils
+      function get(selector, root = document) {
+        return root.querySelector(selector);
+      }
+      function formatDate(date) {
+        const h = "0" + date.getHours();
+        const m = "0" + date.getMinutes();
+        return `${h.slice(-2)}:${m.slice(-2)}`;
+      }
+      const textarea = document.querySelector('textarea');
+      function selectNextMode() {
+        const modeSelect = document.getElementById('mode');
+        const selectedIndex = modeSelect.selectedIndex;
+        const nextIndex = selectedIndex + 1;
+        if (nextIndex < modeSelect.options.length) {
+          modeSelect.selectedIndex = nextIndex;
+        } else {
+          modeSelect.selectedIndex = 0; // wrap around to the first option
+        }
+      }
+      let messageHistory = []; // array to store sent messages
+      messageHistory.unshift('');
+      let currentMessageIndex = 0;
+      textarea.addEventListener('keydown', (event) => {
+        if (event.shiftKey && event.key == 'Enter') {
+          const cursorPos = msgerInput.selectionStart;
+          const currentValue = msgerInput.value;
+          const newValue = currentValue.substring(0, cursorPos) + '\n' + currentValue.substring(msgerInput.selectionEnd);
+          msgerInput.value = newValue;
+          msgerInput.selectionStart = cursorPos + 1;
+          msgerInput.selectionEnd = cursorPos + 1;
+          event.preventDefault();
+        } else if (event.key == 'Enter') {
+          event.preventDefault();
+          submit();
+          currentMessageIndex = 0;
+        }
+        if (event.key == 'Tab') {
+          event.preventDefault();
+          selectNextMode();
+          updateModeSelectWidth();
+        }
+        if (event.key === "ArrowUp") {
+          if (messageHistory.length > 0 && currentMessageIndex >= 0) {
+            event.preventDefault();
+            msgerInput.value = messageHistory[currentMessageIndex];
+            currentMessageIndex++;
+            currentMessageIndex = currentMessageIndex % messageHistory.length;
+          }
+        } else if (event.key === "ArrowDown") {
+          if (messageHistory.length > 0 && currentMessageIndex >= 0 && currentMessageIndex < messageHistory.length) {
+            event.preventDefault();
+            msgerInput.value = messageHistory[currentMessageIndex];
+            currentMessageIndex = (currentMessageIndex + messageHistory.length - 1) % messageHistory.length;
+          }
+        }
+      });
+      const promptSelect = document.getElementById('prompt');
+      promptSelect.addEventListener('change', function () {
+        if (promptSelect.selectedIndex >= 0) {
+          textarea.value = '/' + promptSelect.options[promptSelect.selectedIndex].value.replace(/ /g, "_");
+        }
+      })
+      function PromptsCompletion() {
+        const selectedOption = modeselect.options[modeselect.selectedIndex];
+        if (selectedOption.value != 'chat' || textarea.value == '' || textarea.value.charAt(0) != '/' || textarea.value.length == 1) {
+          promptSelect.style.display = 'none';
+          return;
+        }
+        const tailPos = textarea.value.indexOf(" ") == -1 ? textarea.value.length : textarea.value.indexOf(" ");
+        fetch('/api/promptsCompletion?prompt=' + textarea.value.slice(1).slice(0, tailPos))
+          .then(response => response.json())
+          .then(data => {
+            const prompts = data;
+            if (data.length == 0) {
+              promptSelect.style.display = 'none';
+              return;
+            }
+            promptSelect.style.display = 'block';
+            while (promptSelect.firstChild) {
+              promptSelect.removeChild(promptSelect.firstChild);
+            }
+            for (let i = 0; i < prompts.length; i++) {
+              const option = document.createElement('option');
+              option.value = prompts[i];
+              option.text = prompts[i];
+              promptSelect.appendChild(option);
+            }
+            updatePromptSelectWidth();
+          });
+      }
+      textarea.style.height = '45px';
+      textarea.style.paddingTop = '10px';
+      function textAreaHeightAdjut() {
+        textarea.style.height = 'auto';
+        if (textarea.scrollHeight < 80) {
+          textarea.style.height = '45px';
+        } else if (textarea.scrollHeight > 400) {
+          textarea.style.height = `400px`;
+        } else {
+          textarea.style.height = `${textarea.scrollHeight + 5}px`;
+        }
+      }
+      textarea.addEventListener('input', () => {
+        textAreaHeightAdjut();
+        PromptsCompletion();
+      });
+      function calculateTextWidth(text) {
+        let canvas = document.createElement("canvas");
+        let context = canvas.getContext("2d");
+        let font = "monospace";
+        let fontSize = "1em";
+        context.font = fontSize + " " + font;
+        let width = context.measureText(text).width;
+        if (width > 100) return 100;
+        return width * 1.3 + 20;
+      }
+      const modeselect = document.getElementById('mode');
+      function updateModeSelectWidth() {
+        promptSelect.style.display = 'none';
+        const selectedOption = modeselect.options[modeselect.selectedIndex];
+        const selectedOptionWidth = calculateTextWidth(selectedOption.text);
+        modeselect.style.width = selectedOptionWidth + 'px';
+      }
+      function updatePromptSelectWidth() {
+        const selectedOption = promptSelect.options[promptSelect.selectedIndex];
+        if (selectedOption == null) {
+          return;
+        }
+        const selectedOptionWidth = calculateTextWidth(selectedOption.text);
+        promptSelect.style.width = selectedOptionWidth + 'px';
+      }
+      updateModeSelectWidth();
+      updatePromptSelectWidth();
+      promptSelect.addEventListener('change', updatePromptSelectWidth);
+      modeselect.addEventListener('change', updateModeSelectWidth);
+    </script>
+    <script src="{{ url_for('static', filename='js/newChat.js') }}"></script>
+</body>
+
+</html>
